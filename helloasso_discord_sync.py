@@ -148,6 +148,10 @@ def extract_member_info(item: dict) -> dict:
     """
     payer = item.get("payer") or {}
     user = item.get("user") or {}
+    raw_discount = item.get("discount") or {}
+    code  = None
+    if raw_discount:
+        code = raw_discount.get("code")
 
     first_name = user.get("firstName", "")
     last_name = user.get("lastName", "")
@@ -165,6 +169,7 @@ def extract_member_info(item: dict) -> dict:
         "pseudo_discord": pseudo_discord or "Pseudo Discord non renseigné",
         "date": item.get("date", ""),
         "raw": item,  # gardé pour debug si besoin
+        "local": code and code.startswith("LOCAL")
     }
 
 
@@ -187,7 +192,7 @@ def save_state(state: dict) -> None:
 # DISCORD
 # --------------------------------------------------------------------------
 def build_embed(member: dict) -> dict:
-    return {
+    result = {
         "title": "🎉 Nouvel adhérent !",
         "color": 0x57F287,  # vert Discord
         "fields": [
@@ -198,6 +203,9 @@ def build_embed(member: dict) -> dict:
         "footer": {"text": "HelloAsso"},
         "timestamp": member["date"] or None,
     }
+    if member["local"]:
+        result["fields"].append({"name": "PAIEMENT LOCAL", "value": "A valider par un permanent", "inline": False})
+    return result
 
 
 def post_new_members_to_discord(members: list[dict]) -> None:
