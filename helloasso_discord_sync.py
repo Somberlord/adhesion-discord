@@ -42,7 +42,7 @@ HA_ORGANIZATION_SLUG = os.environ.get("HA_ORGANIZATION_SLUG", "votre-association
 HA_FORM_SLUG = os.environ.get("HA_FORM_SLUG", "votre-formulaire")
 
 # Utilisez api.helloasso-sandbox.com pour tester avant de passer en prod.
-HA_API_BASE = os.environ.get("HA_API_BASE", "https://api.helloasso.com")
+HA_API_BASE = os.environ.get("HA_API_BASE", "")
 
 DISCORD_WEBHOOK_URL = os.environ.get(
     "DISCORD_WEBHOOK_URL",
@@ -87,7 +87,7 @@ def get_access_token() -> str:
 # --------------------------------------------------------------------------
 # RÉCUPÉRATION DES ADHÉRENTS
 # --------------------------------------------------------------------------
-def fetch_membership_items(access_token: str, since: datetime | None) -> list[dict]:
+def fetch_membership_items(access_token: str, since: datetime) -> list[dict]:
     """
     Récupère tous les articles de type "Membership" (adhésion) de
     l'organisation, en paginant via continuationToken jusqu'à épuisement.
