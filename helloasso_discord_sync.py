@@ -40,6 +40,7 @@ HA_CLIENT_ID = os.environ.get("HA_CLIENT_ID", "VOTRE_CLIENT_ID")
 HA_CLIENT_SECRET = os.environ.get("HA_CLIENT_SECRET", "VOTRE_CLIENT_SECRET")
 HA_ORGANIZATION_SLUG = os.environ.get("HA_ORGANIZATION_SLUG", "votre-association")
 HA_FORM_SLUG = os.environ.get("HA_FORM_SLUG", "votre-formulaire")
+YEAR = os.environ.get("YEAR", "")
 
 # Utilisez api.helloasso-sandbox.com pour tester avant de passer en prod.
 HA_API_BASE = os.environ.get("HA_API_BASE", "")
@@ -193,12 +194,12 @@ def save_state(state: dict) -> None:
 # --------------------------------------------------------------------------
 def build_embed(member: dict) -> dict:
     result = {
-        "title": "🎉 Nouvel adhérent !",
+        "title": f"🎉 Nouvel adhérent {YEAR}!",
         "color": 0x57F287,  # vert Discord
         "fields": [
             {"name": "Nom", "value": member["name"], "inline": True},
             {"name": "Pseudo Discord", "value": member["pseudo_discord"], "inline": True},
-            {"name": "Formule", "value": member["tier"], "inline": False},
+            #{"name": "Formule", "value": member["tier"], "inline": False},
         ],
         "footer": {"text": "HelloAsso"},
         "timestamp": member["date"] or None,
