@@ -1,4 +1,5 @@
 files.zip
 .env
+.envjdr
 .venv
 helloasso_state.json
